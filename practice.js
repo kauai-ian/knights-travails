@@ -3,6 +3,37 @@
 // board
 // 7 spaces on the x axis and 7 on the y
 // 49 pair combinations
+//Factory Queue
+const createQueue =  () => {
+  const queue = []
+  const enqueue = (element) => {
+    queue.push(element)
+  }
+  const dequeue = () => {
+    if(isEmpty()) {
+      return "dequeued"
+    }
+    return queue.shift()
+  }
+  const isEmpty = () => {
+    return queue.length === 0
+  }
+  return {
+    enqueue, dequeue, isEmpty,
+  }
+}
+const myQueue = createQueue()
+myQueue.enqueue(5)
+myQueue.enqueue(10)
+myQueue.enqueue(15)
+
+console.log(myQueue.dequeue())
+console.log(myQueue.isEmpty())
+console.log(myQueue.dequeue())
+console.log(myQueue.isEmpty())
+console.log(myQueue.dequeue())
+console.log(myQueue.isEmpty())
+
 
 // Factory of vertices
 const node = function (vertices) {
@@ -20,7 +51,7 @@ addVertex(v) {
 // add eddge to graph
  addEdge(v, w) {
   // adds an edge between the source and the destination (v and w)
-  this.AdjList.get(v).push(w); // get the list for vertex v and put the vertex w donting edge between v and w.
+  this.AdjList.get(v).push(w); // get the list for vertex v and put the vertex w denoting edge between v and w.
   this.AdjList.get(w).push(v); // since graph is undirected, add an edge from w to v also
 },
 
@@ -38,6 +69,32 @@ printGraph() {
     console.log(i + " -> " + concat); // print the vertex and its adjacency list
   }
 },
+
+// breadth first traversal for a graph -
+// starting node
+breadthFirstSearch(startingNode, graph) {
+  // visited object created
+  let visited = {}
+  // create a queue
+  let q = createQueue();
+  // add the starting node to the queue
+  visited[startingNode] = true;
+  q.enqueue(startingNode);
+  // loop until the queue is empty
+  while(!q.isEmpty()) {
+    let getQueueElement = q.dequeue() // get the element from the queue
+    console.log(getQueueElement) // passing the current vertex to callback function
+  let get_list = this.AdjList.get(getQueueElement) // get the adjacent list for current vertex
+  for (let i in get_list) {
+    let neigh = get_list[i];
+  
+    if (!visited[neigh]) {
+      visited[neigh] = true;
+      q.enqueue(neigh)
+    }
+  } // loop through the list and add the element to the queue if it is not processed yet
+  }
+  },
 }
 }
 
@@ -63,18 +120,17 @@ g.addEdge('E', 'C')
 g.addEdge('C', 'F')
 
 g.printGraph()
-// breadth first search -
+
+console.log("search")
+g.breadthFirstSearch('A')
+
+
 
 // Get and set current coordinates to the board
 //dynamic function that takes multiple x and y coordinates and a predecessor.
 
-// define an array for hardcoded possible moves of Knight
+// define an array for possible moves of Knight
 // all the moves that the knight could make in an array (1,2), (1,-2)
 
-// name to hold  x and y ( template literals)
 
-//Evaluate current possible knight moves against offsets and returns array of knightmoves.
 
-// get / set map constructor object name(s)
-// if the square has a name return the square name
-// otherwise create a new square, set up the identity, and return
